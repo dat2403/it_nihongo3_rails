@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+<h1>本</h1>
+<p>
+  <strong>タイトル:</strong>
+  <%= @book.title %>
+</p>
+
+<p>
+  <strong>ページ数:</strong>
+  <%= @book.number_of_pages %>
+</p>
+
+<p>
+  <strong>詳細:</strong>
+  <%= @book.detail %>
+</p>
+
+<div style="widht:200px;height:auto;">
+  <p><strong>カバー:</strong>　</p>
+　<% if @book.image.attached? %>
+    <%= image_tag @book.image, class: "card-img",style:"widht:100%!important" %>
+  <% end %>
+</div>
+
+<h2>Review From</h2>
+ <%= form_with(model: @book_review, local: true) do |form| %>
+   <div class= "field">
+     <%= form.text_area :review %>
+     <%= form.hidden_field :book_id, :value => @book.id %>
+   </div>
+   <div class="actions">
+     <%= form.submit %>
+   </div>
+ <% end %>
+ 
+ <h2>Review List</h2>
+ <ul>
+    <% @book.book_review.each do |book_review|%>
+      <li><%= book_review.review %>
+        (<i><%= book_review.user.name %></i>)
+      </li>
+    <% end %>
+ </ul>
+
+
+<%= link_to 'Edit', edit_book_path(@book) %> |
+<%= link_to 'Back', books_path %>
